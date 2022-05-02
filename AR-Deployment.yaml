@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ar
+  name: ar
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ar
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: ar
+        tier: frontend
+    spec:
+      containers:
+      - image: eddiecfox/iems5709-final-project:v1
+        command: ["/bin/bash", "-c", "--"]
+        args: ["while true; do sleep 30; done;"]
+        name: ar
+        ports:
+        - containerPort: 8554
+        resources: {}
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - mountPath: /home
+          name: finalproject
+      restartPolicy: Always
+      volumes:
+      - name: finalproject
+        hostPath:
+          path: /home/FinalProject
+          type: Directory

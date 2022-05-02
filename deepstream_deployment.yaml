@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deepstream
+  namespace: db     
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: deepstream
+  template:
+    metadata:
+      name: deepstream
+      labels:
+        app: deepstream
+    spec:
+      containers:
+      - name: deepstream
+        image: nvcr.io/nvidia/deepstream-l4t:6.0-triton
+        ports:
+        - containerPort: 6020
+          name: websocket-port
+        - containerPort: 8080
+          name: http-port
